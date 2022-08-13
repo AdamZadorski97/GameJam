@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField] GameObject mainMenuCanvas;
+    [SerializeField] GameObject creditsCanvas;
+
     public void LoadNewGame()
     {
         SceneManager.LoadScene(1);
@@ -13,5 +16,17 @@ public class MainMenu : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public void Credits()
+    {
+        mainMenuCanvas.SetActive(false);
+        creditsCanvas.SetActive(true);
+    }
+
+    public void Back()
+    {
+        mainMenuCanvas.SetActive(true);
+        creditsCanvas.SetActive(false);
     }
 }
