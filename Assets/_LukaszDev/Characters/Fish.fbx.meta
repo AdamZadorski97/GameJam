@@ -15,6 +15,24 @@ ModelImporter:
   - first:
       74: -4786275207742117295
     second: Fish.Arm|Fish.JumpThrough
+  - first:
+      74: 1611066594905203177
+    second: Fish.IddleOnGround
+  - first:
+      74: -3035839783446569466
+    second: Fish.JumpEnd
+  - first:
+      74: -484008247001521351
+    second: Fish.JumpStart
+  - first:
+      74: -6140131976009536891
+    second: Fish.JumpThrough
+  - first:
+      74: -5256590981840267847
+    second: Fish.IddleInWater
+  - first:
+      74: -681751182127984341
+    second: Fish.Arm|Fish.IddleInWater
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -144,6 +162,35 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Fish.Arm|Fish.IddleInWater
+      takeName: Fish.Arm|Fish.IddleInWater
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 15
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
