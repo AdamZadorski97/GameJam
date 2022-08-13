@@ -17,6 +17,7 @@ namespace Water2DTool
         private Transform m_GroundCheck;    // A position marking where to check if the player is grounded.
         const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
         private bool m_Grounded;            // Whether or not the player is grounded.
+        private bool m_Watered;
         const float k_CeilingRadius = .01f; // Radius of the overlap circle to determine if the player can stand up
         private Rigidbody m_Rigidbody;
         private Rigidbody2D m_Rigidbody2D;
@@ -43,6 +44,7 @@ namespace Water2DTool
         private void FixedUpdate()
         {
             m_Grounded = false;
+            m_Watered = false;
             playerAnimator.ResetTrigger("JumpEnd");
             // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
             // This can be done using layers instead but Sample Assets will not overwrite your project settings.
@@ -62,9 +64,11 @@ namespace Water2DTool
                     {
                      
                         m_Grounded = true;
+                        return;
                     }
                      
                 }
+            
             }
             else
             {
@@ -72,8 +76,21 @@ namespace Water2DTool
                 {
                     if (colliders3D[i].gameObject != gameObject)
                     {
-                        playerAnimator.SetTrigger("JumpEnd");
-                        m_Grounded = true;
+                        if(colliders3D[i].GetComponent<Water2D_Simulation>())
+                        {
+                            playerAnimator.SetTrigger("JumpEnd");
+                            m_Watered = true;
+                        }
+                        else
+                        {
+                            playerAnimator.SetTrigger("JumpEnd");
+                            m_Grounded = true;
+                        }
+                     
+                    }
+                    else
+                    {
+                     
                     }
                      
                 }
@@ -106,7 +123,7 @@ namespace Water2DTool
             }
             //}
             // If the player should jump...
-            if (m_Grounded && jump)
+            if ((m_Grounded || m_Watered) && jump)
             {
                 // Add a vertical force to the player.
                 m_Grounded = false;
