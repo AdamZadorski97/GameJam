@@ -18,11 +18,11 @@ MonoBehaviour:
   - {fileID: 1406009099456752, guid: b0d744330c6776943844b07ecd94eb1f, type: 3}
   - {fileID: 1523950091251354, guid: ebd70366c46843d4eb94412901f7ba92, type: 3}
   editor_PrefabAssetPaths:
-  - Assets/Polaris - Low Poly Ecosystem/Polaris - Low Poly Terrain Engine/Samples/Pinwheel
+  - Assets/ThirdParty/Polaris - Low Poly Ecosystem/Polaris - Low Poly Terrain Engine/Samples/Pinwheel
     Studio/Prefabs/Rock.prefab
-  - Assets/Polaris - Low Poly Ecosystem/Polaris - Low Poly Terrain Engine/Samples/Pinwheel
+  - Assets/ThirdParty/Polaris - Low Poly Ecosystem/Polaris - Low Poly Terrain Engine/Samples/Pinwheel
     Studio/Prefabs/Rock1.prefab
-  - Assets/Polaris - Low Poly Ecosystem/Polaris - Low Poly Terrain Engine/Samples/Pinwheel
+  - Assets/ThirdParty/Polaris - Low Poly Ecosystem/Polaris - Low Poly Terrain Engine/Samples/Pinwheel
     Studio/Prefabs/Rock2.prefab
-  - Assets/Polaris - Low Poly Ecosystem/Polaris - Low Poly Terrain Engine/Samples/Pinwheel
+  - Assets/ThirdParty/Polaris - Low Poly Ecosystem/Polaris - Low Poly Terrain Engine/Samples/Pinwheel
     Studio/Prefabs/Rock3.prefab
