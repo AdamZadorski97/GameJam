@@ -30,6 +30,9 @@ ModelImporter:
   - first:
       74: -5256590981840267847
     second: Fish.IddleInWater
+  - first:
+      74: -681751182127984341
+    second: Fish.Arm|Fish.IddleInWater
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -60,11 +63,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Fish.IddleOnGround
-      takeName: Fish.IddleOnGround
+      name: Fish.Arm|Fish.IddleOnGround
+      takeName: Fish.Arm|Fish.IddleOnGround
       internalID: 0
-      firstFrame: -1
-      lastFrame: 99
+      firstFrame: 0
+      lastFrame: 100
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -89,11 +92,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Fish.JumpEnd
-      takeName: Fish.JumpEnd
+      name: Fish.Arm|Fish.JumpEnd
+      takeName: Fish.Arm|Fish.JumpEnd
       internalID: 0
-      firstFrame: -1
-      lastFrame: 99
+      firstFrame: 0
+      lastFrame: 15
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -118,11 +121,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Fish.JumpStart
-      takeName: Fish.JumpStart
+      name: Fish.Arm|Fish.JumpStart
+      takeName: Fish.Arm|Fish.JumpStart
       internalID: 0
-      firstFrame: -1
-      lastFrame: 99
+      firstFrame: 0
+      lastFrame: 15
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -147,11 +150,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Fish.JumpThrough
-      takeName: Fish.JumpThrough
+      name: Fish.Arm|Fish.JumpThrough
+      takeName: Fish.Arm|Fish.JumpThrough
       internalID: 0
-      firstFrame: -1
-      lastFrame: 99
+      firstFrame: 0
+      lastFrame: 15
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -176,11 +179,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Fish.IddleInWater
-      takeName: Fish.IddleInWater
+      name: Fish.Arm|Fish.IddleInWater
+      takeName: Fish.Arm|Fish.IddleInWater
       internalID: 0
-      firstFrame: -1
-      lastFrame: 14
+      firstFrame: 0
+      lastFrame: 15
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
