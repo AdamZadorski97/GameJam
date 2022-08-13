@@ -11,6 +11,9 @@ namespace Water2DTool
         private float m_MaxSpeed = 10f;                    // The fastest the player can travel in the x axis.
         [SerializeField]
         private float m_JumpGroundForce = 400f;                  // Amount of force added when the player jumps.
+
+        [SerializeField]
+        private float m_JumpWaterForce = 400f;
         //[SerializeField]
         public LayerMask m_WhatIsGround;                  // A mask determining what is ground to the character
 
@@ -159,11 +162,13 @@ namespace Water2DTool
                     m_Rigidbody2D.AddForce(new Vector3(0f, m_JumpGroundForce, 0));
                 else
                 {
-                    Vector3 theScale = transform.localScale;
                     //    if (theScale.x == -1)
                     {
                         if(m_Grounded)
                         m_Rigidbody.AddForce(new Vector3(0, m_JumpGroundForce, 0));
+                        
+                        if (m_Watered)
+                            m_Rigidbody.AddForce(new Vector3(0, m_JumpWaterForce, 0));
                     }
                 }
 
