@@ -24,7 +24,7 @@ namespace Water2DTool
 
         private Vector3 checkPoint;
         public bool use2DColliders = true;
-
+        [SerializeField] private Animator playerAnimator;
         private void Awake()
         {
             // Setting up references.
@@ -43,7 +43,7 @@ namespace Water2DTool
         private void FixedUpdate()
         {
             m_Grounded = false;
-
+            playerAnimator.ResetTrigger("JumpEnd");
             // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
             // This can be done using layers instead but Sample Assets will not overwrite your project settings.
             Collider[] colliders3D = null;
@@ -59,7 +59,11 @@ namespace Water2DTool
                 for (int i = 0; i < colliders2D.Length; i++)
                 {
                     if (colliders2D[i].gameObject != gameObject)
+                    {
+                     
                         m_Grounded = true;
+                    }
+                     
                 }
             }
             else
@@ -67,7 +71,11 @@ namespace Water2DTool
                 for (int i = 0; i < colliders3D.Length; i++)
                 {
                     if (colliders3D[i].gameObject != gameObject)
+                    {
+                        playerAnimator.SetTrigger("JumpEnd");
                         m_Grounded = true;
+                    }
+                     
                 }
             }
         }
@@ -94,7 +102,7 @@ namespace Water2DTool
             else if (move < 0 && m_FacingRight)
             {
                 // ... flip the player.
-                //Flip();
+                Flip();
             }
             //}
             // If the player should jump...
@@ -103,7 +111,7 @@ namespace Water2DTool
                 // Add a vertical force to the player.
                 m_Grounded = false;
                 //m_Anim.SetBool("Ground", false);
-
+                playerAnimator.SetTrigger("Jump");
                 if (use2DColliders)
                     m_Rigidbody2D.AddForce(new Vector3(0f, m_JumpForce, 0));
                 else
@@ -114,6 +122,7 @@ namespace Water2DTool
 
         private void Flip()
         {
+            Debug.Log("Flip");
             // Switch the way the player is labelled as facing.
             m_FacingRight = !m_FacingRight;
 
