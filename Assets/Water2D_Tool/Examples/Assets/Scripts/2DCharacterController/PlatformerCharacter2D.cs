@@ -10,20 +10,22 @@ namespace Water2DTool
         [SerializeField]
         private float m_MaxSpeed = 10f;                    // The fastest the player can travel in the x axis.
         [SerializeField]
-        private float m_JumpForce = 400f;                  // Amount of force added when the player jumps.
+        private float m_JumpGroundForce = 400f;                  // Amount of force added when the player jumps.
         //[SerializeField]
         public LayerMask m_WhatIsGround;                  // A mask determining what is ground to the character
 
         private Transform m_GroundCheck;    // A position marking where to check if the player is grounded.
         const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
-        private bool m_Grounded;            // Whether or not the player is grounded.
+        public bool m_Grounded;            // Whether or not the player is grounded.
+        public bool m_Watered;
         const float k_CeilingRadius = .01f; // Radius of the overlap circle to determine if the player can stand up
         private Rigidbody m_Rigidbody;
         private Rigidbody2D m_Rigidbody2D;
         private bool m_FacingRight = true;  // For determining which way the player is currently facing.
-
+        public Vector2 velocity;
         private Vector3 checkPoint;
         public bool use2DColliders = true;
+        public Transform fish;
         [SerializeField] private Animator playerAnimator;
         private void Awake()
         {
@@ -42,8 +44,15 @@ namespace Water2DTool
 
         private void FixedUpdate()
         {
+            velocity = m_Rigidbody.velocity;
+
+
+
             m_Grounded = false;
+            m_Watered = false;
             playerAnimator.ResetTrigger("JumpEnd");
+            playerAnimator.ResetTrigger("JumpEndWater");
+            playerAnimator.ResetTrigger("JumpEndGround");
             // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
             // This can be done using layers instead but Sample Assets will not overwrite your project settings.
             Collider[] colliders3D = null;
@@ -60,11 +69,13 @@ namespace Water2DTool
                 {
                     if (colliders2D[i].gameObject != gameObject)
                     {
-                     
+
                         m_Grounded = true;
+                        return;
                     }
-                     
+
                 }
+
             }
             else
             {
@@ -73,13 +84,41 @@ namespace Water2DTool
                     if (colliders3D[i].gameObject != gameObject)
                     {
                         playerAnimator.SetTrigger("JumpEnd");
-                        m_Grounded = true;
+
+                        if (colliders3D[i].GetComponent<Water2D_Simulation>())
+                        {
+                            playerAnimator.SetTrigger("JumpEndWater");
+                            m_Watered = true;
+                        }
+                        else
+                        {
+                            playerAnimator.SetTrigger("JumpEndGround");
+                            m_Grounded = true;
+                        }
+
                     }
-                     
+                    else
+                    {
+
+                    }
+
                 }
             }
-        }
 
+            if (!m_Watered && !m_Grounded)
+           {
+              
+                fish.transform.rotation = Quaternion.Lerp(fish.transform.rotation, Quaternion.Euler(new Vector3(velocity.y * -rotationmultipler * fish.localScale.z, 90, 0)), rotationmultipler);
+            }
+            else
+            {
+                fish.transform.rotation = Quaternion.Lerp(fish.transform.rotation, Quaternion.Euler(new Vector3(0, 90, 0)), rotationmultipler);
+
+            }
+
+
+        }
+        public float rotationmultipler = 5;
 
         public void Move(float move, bool crouch, bool jump)
         {
@@ -89,8 +128,12 @@ namespace Water2DTool
                 if (use2DColliders)
                     m_Rigidbody2D.velocity = new Vector3(move * m_MaxSpeed, m_Rigidbody2D.velocity.y, 0);
                 else
-                    m_Rigidbody.velocity = new Vector2(move * m_MaxSpeed, m_Rigidbody.velocity.y);
+                {
+                    if (!m_Grounded)
+                        m_Rigidbody.velocity = new Vector2(move * m_MaxSpeed, m_Rigidbody.velocity.y);
+                }
             }
+
 
             // If the input is moving the player right and the player is facing left...
             if (move > 0 && !m_FacingRight)
@@ -106,16 +149,24 @@ namespace Water2DTool
             }
             //}
             // If the player should jump...
-            if (m_Grounded && jump)
+            if ((m_Grounded || m_Watered) && jump)
             {
                 // Add a vertical force to the player.
                 m_Grounded = false;
                 //m_Anim.SetBool("Ground", false);
                 playerAnimator.SetTrigger("Jump");
                 if (use2DColliders)
-                    m_Rigidbody2D.AddForce(new Vector3(0f, m_JumpForce, 0));
+                    m_Rigidbody2D.AddForce(new Vector3(0f, m_JumpGroundForce, 0));
                 else
-                    m_Rigidbody.AddForce(new Vector3(0f, m_JumpForce, 0));
+                {
+                    Vector3 theScale = transform.localScale;
+                    //    if (theScale.x == -1)
+                    {
+                        if(m_Grounded)
+                        m_Rigidbody.AddForce(new Vector3(0, m_JumpGroundForce, 0));
+                    }
+                }
+
             }
         }
 
@@ -127,9 +178,9 @@ namespace Water2DTool
             m_FacingRight = !m_FacingRight;
 
             // Multiply the player's x local scale by -1.
-            Vector3 theScale = transform.localScale;
-            theScale.x *= -1;
-            transform.localScale = theScale;
+            Vector3 theScale = fish.localScale;
+            theScale.z *= -1;
+           fish.localScale = theScale;
         }
 
         public void ResetPlayerPosition()

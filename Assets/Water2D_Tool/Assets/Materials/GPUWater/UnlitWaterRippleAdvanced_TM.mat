@@ -55,7 +55,7 @@ Material:
     m_Floats:
     - _ApplyOffset: 0
     - _BottomPos: -2
-    - _CubeMapLevel: 0.2
+    - _CubeMapLevel: 0.387
     - _Culling: 2
     - _DEPTHFOG: 0
     - _Distortion: 0.14
