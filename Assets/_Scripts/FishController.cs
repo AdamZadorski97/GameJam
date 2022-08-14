@@ -8,7 +8,7 @@ namespace Water2DTool
         [SerializeField] private PlatformerCharacter2D platformerCharacter2D;
         [SerializeField] private HealthBar healthBar;
 
-        [SerializeField] private float health;
+        [SerializeField] public float health;
         [SerializeField] private float healthAddSpeed;
         [SerializeField] private float healthSubstractSpeed;
         private void Update()
@@ -20,7 +20,7 @@ namespace Water2DTool
         {
             if (!platformerCharacter2D.m_Watered && health>0)
             {
-                health -= Time.deltaTime * healthSubstractSpeed;
+               // health -= Time.deltaTime * healthSubstractSpeed;
             }
             else if (platformerCharacter2D.m_Watered && health < 1)
             {
