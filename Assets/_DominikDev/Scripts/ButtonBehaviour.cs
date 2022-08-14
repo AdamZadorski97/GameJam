@@ -13,6 +13,7 @@ public class ButtonBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void OnPointerEnter(PointerEventData eventData)
     {
         enterSequence = DOTween.Sequence();
+        exitSequence.Kill();
         enterSequence.Append( transform.DOScale(2, 2).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear));
     }
 
