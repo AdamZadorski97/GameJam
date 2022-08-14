@@ -43,14 +43,16 @@ public class SeagullBehaviour : MonoBehaviour
             {
                 if (raycast.transform.gameObject.GetComponent<PlatformerCharacter2D>())
                 {
-                    flySequence.Kill();
-                    //flySequence.Pause();
-                    seagull.DOMove(player.position, 1);
-                    //if (!isFishCatched)
-                    //{
-                    //    flySequence.Play();
-                    //}
-                    isFishVisible = true;
+                    //flySequence.Kill();
+                    flySequence.Pause();
+                    //seagull.DOMove(player.position, 1);
+                    catchSequence = DOTween.Sequence();
+                    catchSequence.Append(seagull.DOMove(player.position, 1));
+                    if (!isFishCatched)
+                    {
+                        flySequence.Play();
+                    }
+                    //isFishVisible = true;
                 }
             }
         }
@@ -60,7 +62,7 @@ public class SeagullBehaviour : MonoBehaviour
     {
         if (other.gameObject.GetComponent<PlatformerCharacter2D>())
         {
-            //isFishCatched = true;
+            isFishCatched = true;
             catchSequence = DOTween.Sequence();
             if (!isFishActive)
             {
@@ -70,6 +72,8 @@ public class SeagullBehaviour : MonoBehaviour
                 player.GetComponent<Rigidbody>().useGravity = false;
                 catchSequence.Append(seagull.DOLocalMove(startPosition, 3));
                 catchSequence.AppendCallback(() => { player.SetParent(null); player.GetComponent<Rigidbody>().useGravity = true;  flyAwaySequence.Append(seagull.DOLocalMove(new Vector3(10, 10, 0), 3)); });
+                catchSequence.AppendInterval(3);
+                DOTween.KillAll();
             }
             //catchSequence.AppendCallback(() => { player.SetParent(null); player.GetComponent<Rigidbody>().gameObject.SetActive(true); flyAwaySequence.Append(seagull.DOLocalMove(new Vector3(10, 10, 0), 3)); });
         }
