@@ -6,9 +6,10 @@ using Water2DTool;
 public class SeagullBehaviour : MonoBehaviour
 {
     [SerializeField] Transform seagull;
-    //[SerializeField] Vector3 player;
     [SerializeField] Transform player;
     [SerializeField] Vector3 startPosition = new Vector3(0, 0, 0);
+    [SerializeField] Animator animator;
+    [SerializeField] int timeToMoveToStart = 5;
     private Sequence flySequence;
     private Sequence catchSequence;
     private Sequence flyAwaySequence;
@@ -16,16 +17,17 @@ public class SeagullBehaviour : MonoBehaviour
     bool isFishActive = false;
     bool isFishCatched = false;
     RaycastHit raycast;
+    int completedLoops;
+    int rotator;
 
     private void Start()
     {
         flySequence = DOTween.Sequence();
         catchSequence = DOTween.Sequence();
         flyAwaySequence = DOTween.Sequence();
-        flySequence.Append(seagull.DOMoveX(-10, 3)).SetRelative().SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
-        //sequence.Join(seagull.DOLookAt(player, 3));
-        flySequence.Insert(0.5f, seagull.DOMoveY(-1, 1).SetRelative());
-        flySequence.Insert(2.5f, seagull.DOMoveY(1, 1).SetRelative());
+        flySequence.Append(seagull.DOMoveX(-10, 3)).SetRelative().SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo).OnStepComplete(Flip);
+        //flySequence.Insert(0.5f, seagull.DOMoveY(-1, 1).SetRelative());
+        //flySequence.Insert(2.5f, seagull.DOMoveY(1, 1).SetRelative());
         //StartCoroutine(WaitForFishInWater());
     }
 
@@ -37,7 +39,7 @@ public class SeagullBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if(!isFishVisible)
+        if (!isFishVisible)
         {
             if (Physics.Raycast(seagull.position, Vector3.down, out raycast))
             {
@@ -45,17 +47,27 @@ public class SeagullBehaviour : MonoBehaviour
                 {
                     //flySequence.Kill();
                     flySequence.Pause();
-                    //seagull.DOMove(player.position, 1);
-                    catchSequence = DOTween.Sequence();
-                    catchSequence.Append(seagull.DOMove(player.position, 1));
+                    seagull.DOMove(player.position, 1);
+                    animator.SetTrigger("HountingStart");
+                    //catchSequence = DOTween.Sequence();
+                    //catchSequence.Append(seagull.DOMove(player.position, 1));
                     if (!isFishCatched)
                     {
                         flySequence.Play();
+                        animator.SetTrigger("HountingStop");
                     }
-                    //isFishVisible = true;
+                    isFishVisible = true;
                 }
             }
         }
+    }
+
+    void Flip()
+    {
+        completedLoops++;
+        if (completedLoops % 2 == 1) rotator = 1;
+        else rotator = -1;
+        seagull.DOScaleZ(-1 * rotator, 0.5f);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -64,16 +76,16 @@ public class SeagullBehaviour : MonoBehaviour
         {
             isFishCatched = true;
             catchSequence = DOTween.Sequence();
+            animator.SetTrigger("HountingStop");
             if (!isFishActive)
             {
                 isFishActive = true;
                 player.SetParent(seagull);
-                //player.GetComponent<Rigidbody>().gameObject.SetActive(false);
                 player.GetComponent<Rigidbody>().useGravity = false;
-                catchSequence.Append(seagull.DOLocalMove(startPosition, 3));
+                catchSequence.Append(seagull.DOMove(startPosition, timeToMoveToStart));
                 catchSequence.AppendCallback(() => { player.SetParent(null); player.GetComponent<Rigidbody>().useGravity = true;  flyAwaySequence.Append(seagull.DOLocalMove(new Vector3(10, 10, 0), 3)); });
-                catchSequence.AppendInterval(3);
-                DOTween.KillAll();
+                //catchSequence.AppendInterval(3);
+                //DOTween.KillAll();
             }
             //catchSequence.AppendCallback(() => { player.SetParent(null); player.GetComponent<Rigidbody>().gameObject.SetActive(true); flyAwaySequence.Append(seagull.DOLocalMove(new Vector3(10, 10, 0), 3)); });
         }
